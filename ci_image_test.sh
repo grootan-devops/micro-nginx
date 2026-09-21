@@ -13,8 +13,11 @@ nginx -version 2>&1 | grep -q '1\.31\.6' || fail "unexpected Nginx version"
 log_dir="${TMPDIR:-/tmp}/nginx-test"
 mkdir -p "${log_dir}"
 pid_file="${log_dir}/nginx.pid"
-nginx -g "pid ${pid_file}; daemon off;" -t
-nginx -g "pid ${pid_file}; daemon off;" >"${log_dir}/stdout.log" 2>"${log_dir}/stderr.log" &
+sed "s|^[[:space:]]*pid[[:space:]].*;|pid ${pid_file};|" \
+  /etc/nginx/nginx.conf >"${log_dir}/nginx.conf"
+nginx -c "${log_dir}/nginx.conf" -t
+nginx -c "${log_dir}/nginx.conf" -g 'daemon off;' \
+  >"${log_dir}/stdout.log" 2>"${log_dir}/stderr.log" &
 nginx_pid=$!
 cleanup() {
   kill "${nginx_pid}" 2>/dev/null || true
