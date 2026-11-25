@@ -7,6 +7,12 @@ and this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-11-25
+
+### Security
+
+- Bumped `micro-root` base image to `1.2.2` (RHEL 9.9), picking up the fixed `glibc`/`libgcc` packages. The fresh `grep`/`procps-ng`/`sed`/`systemd` package install also pulls current RHEL 9.9 `openssl`/`expat`/`util-linux`/`ca-certificates`/`xz-libs`, clearing the remaining CVEs tracked in ZA-881.
+
 ## [1.2.1] - 2026-10-22
 
 ### Changed
